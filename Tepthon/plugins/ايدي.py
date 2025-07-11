@@ -84,6 +84,36 @@ async def fetch_zelzal(user_id):
     zelzal_date = response['data']['date']
     return zelzal_date
 
+async def zzz_info(zthon_user, event):
+    FullUser = (await event.client(GetFullUserRequest(zthon_user.id))).full_user
+    first_name = zthon_user.first_name
+    full_name = FullUser.private_forward_name
+    user_id = zthon_user.id
+    zelzal_sinc = await fetch_zelzal(user_id)
+    username = zthon_user.username
+    verified = zthon_user.verified
+    zilzal = (await event.client.get_entity(user_id)).premium
+    first_name = (
+        first_name.replace("\u2060", "")
+        if first_name
+        else ("هذا المستخدم ليس له اسم أول")
+    )
+    full_name = full_name or first_name
+    username = "@{}".format(username) if username else ("لا يـوجـد")
+    zzzsinc = zelzal_sinc if zelzal_sinc else ("غيـر معلـوم")
+################# Dev ZilZal #################
+    ZThon = f'<a href="T.me/Tepthon">ᯓ 𝗧𝗲𝗽𝘁𝗵𝗼𝗻 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺 𝗗𝗮𝘁𝗮 📟</a>'
+    ZThon += f"\n<b>⋆─┄─┄─┄─┄─┄─┄─⋆</b>\n\n"
+    ZThon += f"<b>• معلومـات إنشـاء حسـاب تيليجـرام 📑 :</b>\n"
+    ZThon += f"<b>- الاسـم    ⤎ </b> "
+    ZThon += f'<a href="tg://user?id={user_id}">{full_name}</a>'
+    ZThon += f"\n<b>- الايــدي   ⤎ </b> <code>{user_id}</code>"
+    ZThon += f"\n<b>- اليـوزر    ⤎  {username}</b>\n"
+    if zilzal == True or user_id in zelzal: 
+        ZThon += f"<b>- الحساب  ⤎  بـريميـوم 🌟</b>\n"
+    ZThon += f"<b>- الإنشـاء   ⤎</b>  {zzzsinc}  🗓" 
+    return ZThon
+
 
 async def fetch_info(replied_user, event):
     """Get details from the User object."""
