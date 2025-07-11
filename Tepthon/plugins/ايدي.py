@@ -8,8 +8,9 @@ import base64
 import requests
 from requests import get
 
+from telethon import Button
 from telethon.tl.functions.messages import ImportChatInviteRequest as Get
-from telethon.tl.types import MessageEntityMentionName
+from telethon.tl.types import MessageEntityMentionName, UserStatusOnline, UserStatusOffline, UserStatusRecently, UserStatusLastWeek, UserStatusLastMonth
 from telethon.tl.functions.photos import GetUserPhotosRequest
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.utils import pack_bot_file_id
@@ -31,7 +32,7 @@ LOGS = logging.getLogger(__name__)
 
 zed_dev = (6583951825, 5895554306, 9848752505, 528089206, 54281890871)
 zel_dev = (6583951825, 5451890871, 9373975462)
-zelzal = (1260465030, 1895219306, 5280339206)
+zelzal = (1260465030, 1895219306, 5280339206, 7291869416)
 ZIDA = gvarstatus("Z_ZZID") or "zvhhhclc"
 Zel_Uid = zedub.uid
 
@@ -84,36 +85,6 @@ async def fetch_zelzal(user_id):
     return zelzal_date
 
 
-async def zzz_info(zthon_user, event):
-    FullUser = (await event.client(GetFullUserRequest(zthon_user.id))).full_user
-    first_name = zthon_user.first_name
-    full_name = FullUser.private_forward_name
-    user_id = zthon_user.id
-    zelzal_sinc = await fetch_zelzal(user_id)
-    username = zthon_user.username
-    verified = zthon_user.verified
-    zilzal = (await event.client.get_entity(user_id)).premium
-    first_name = (
-        first_name.replace("\u2060", "")
-        if first_name
-        else ("هذا المستخدم ليس له اسم أول")
-    )
-    full_name = full_name or first_name
-    username = "@{}".format(username) if username else ("لا يـوجـد")
-    zzzsinc = zelzal_sinc if zelzal_sinc else ("غيـر معلـوم")
-################# Dev ZilZal #################
-    ZThon = f'<a href="T.me/Tepthon">ᯓ 𝗧𝗲𝗽𝘁𝗵𝗼𝗻 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺 𝗗𝗮𝘁𝗮 📟</a>'
-    ZThon += f"\n<b>⋆─┄─┄─┄─┄─┄─┄─⋆</b>\n\n"
-    ZThon += f"<b>• معلومـات إنشـاء حسـاب تيليجـرام 📑 :</b>\n"
-    ZThon += f"<b>- الاسـم    ⤎ </b> "
-    ZThon += f'<a href="tg://user?id={user_id}">{full_name}</a>'
-    ZThon += f"\n<b>- الايــدي   ⤎ </b> <code>{user_id}</code>"
-    ZThon += f"\n<b>- اليـوزر    ⤎  {username}</b>\n"
-    if zilzal == True or user_id in zelzal: 
-        ZThon += f"<b>- الحساب  ⤎  بـريميـوم 🌟</b>\n"
-    ZThon += f"<b>- الإنشـاء   ⤎</b>  {zzzsinc}  🗓" 
-    return ZThon
-
 async def fetch_info(replied_user, event):
     """Get details from the User object."""
     FullUser = (await event.client(GetFullUserRequest(replied_user.id))).full_user
@@ -155,11 +126,11 @@ async def fetch_info(replied_user, event):
         else ("هذا المستخدم ليس له اسم أول")
     )
     full_name = full_name or first_name
-    username = "@{}".format(username) if username else ("لا يـوجـد")
+    username_display = "@{}".format(username) if username else ("لا يـوجـد")
     user_bio = "لا يـوجـد" if not user_bio else user_bio
     zzzsinc = zelzal_sinc if zelzal_sinc else ("غيـر معلـوم")
-    zmsg = await bot.get_messages(event.chat_id, 0, from_user=user_id) 
-    zzz = zmsg.total
+    zmsg = await event.client.get_messages(event.chat_id, None, from_user=user_id) 
+    zzz = zmsg.total if hasattr(zmsg, "total") else len(zmsg)
     if zzz < 100: 
         zelzzz = "غير متفاعل  🗿"
     elif zzz > 200 and zzz < 500:
@@ -194,7 +165,7 @@ async def fetch_info(replied_user, event):
         caption += f"ٴ<b>{ZEDF}</b>\n"
         caption += f"<b>{ZEDM}الاســم        ⤎ </b> "
         caption += f'<a href="tg://user?id={user_id}">{full_name}</a>'
-        caption += f"\n<b>{ZEDM}اليـوزر        ⤎  {username}</b>"
+        caption += f"\n<b>{ZEDM}اليـوزر        ⤎  {username_display}</b>"
         caption += f"\n<b>{ZEDM}الايـدي        ⤎ </b> <code>{user_id}</code>\n"
         caption += f"<b>{ZEDM}الرتبــه        ⤎ {rotbat} </b>\n" 
         if zilzal == True or user_id in zelzal: 
@@ -213,7 +184,7 @@ async def fetch_info(replied_user, event):
         zzz_caption = gvarstatus("ZID_TEMPLATE")
         caption = zzz_caption.format(
             znam=full_name,
-            zusr=username,
+            zusr=username_display,
             zidd=user_id,
             zrtb=rotbat,
             zpre=zpre,
@@ -225,7 +196,32 @@ async def fetch_info(replied_user, event):
             zsnc=zzzsinc,
             zbio=user_bio,
         )
-    return photo, caption
+
+     
+    buttons = []
+    if username:
+        buttons.append([Button.url(f"📬 فتح المحادثة ويا {username_display}", f"https://t.me/{username}")])
+
+    
+    status = replied_user.status
+    if isinstance(status, UserStatusOnline):
+        online_status = "🟢 أونلاين الآن"
+    elif isinstance(status, UserStatusOffline):
+        online_status = "📴 آخر ظهور: غير متوفر"
+        if hasattr(status, 'was_online') and status.was_online:
+            online_status = f"📴 آخر ظهور: {status.was_online.strftime('%Y-%m-%d %H:%M')}"
+    elif isinstance(status, UserStatusRecently):
+        online_status = "🕓 شوهد مؤخراً"
+    elif isinstance(status, UserStatusLastWeek):
+        online_status = "📆 شوهد هذا الأسبوع"
+    elif isinstance(status, UserStatusLastMonth):
+        online_status = "📆 شوهد هذا الشهر"
+    else:
+        online_status = "❔ غير معروف"
+
+    buttons.append([Button.inline(online_status, b"noop")])
+
+    return photo, caption, buttons
 
 
 @zedub.zed_cmd(
@@ -245,7 +241,7 @@ async def who(event):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     replied_user = await get_user_from_event(event)
     try:
-        photo, caption = await fetch_info(replied_user, event)
+        photo, caption, buttons = await fetch_info(replied_user, event)
     except (AttributeError, TypeError):
         return await edit_or_reply(zed, "**- لـم استطـع العثــور ع الشخــص ؟!**")
     message_id_to_reply = event.message.reply_to_msg_id
@@ -257,6 +253,7 @@ async def who(event):
                 event.chat_id,
                 photo,
                 caption=caption,
+                buttons=buttons,
                 link_preview=False,
                 force_document=False,
                 reply_to=message_id_to_reply,
@@ -273,6 +270,7 @@ async def who(event):
                 event.chat_id,
                 photo,
                 caption=caption,
+                buttons=buttons,
                 link_preview=False,
                 force_document=False,
                 reply_to=message_id_to_reply,
