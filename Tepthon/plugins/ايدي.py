@@ -156,11 +156,11 @@ async def fetch_info(replied_user, event):
         else ("هذا المستخدم ليس له اسم أول")
     )
     full_name = full_name or first_name
-    username_display = "@{}".format(username) if username else ("لا يـوجـد")
+    username = "@{}".format(username) if username else ("لا يـوجـد")
     user_bio = "لا يـوجـد" if not user_bio else user_bio
     zzzsinc = zelzal_sinc if zelzal_sinc else ("غيـر معلـوم")
-    zmsg = await event.client.get_messages(event.chat_id, None, from_user=user_id) 
-    zzz = zmsg.total if hasattr(zmsg, "total") else len(zmsg)
+    zmsg = await bot.get_messages(event.chat_id, 0, from_user=user_id) 
+    zzz = zmsg.total
     if zzz < 100: 
         zelzzz = "غير متفاعل  🗿"
     elif zzz > 200 and zzz < 500:
@@ -195,7 +195,7 @@ async def fetch_info(replied_user, event):
         caption += f"ٴ<b>{ZEDF}</b>\n"
         caption += f"<b>{ZEDM}الاســم        ⤎ </b> "
         caption += f'<a href="tg://user?id={user_id}">{full_name}</a>'
-        caption += f"\n<b>{ZEDM}اليـوزر        ⤎  {username_display}</b>"
+        caption += f"\n<b>{ZEDM}اليـوزر        ⤎  {username}</b>"
         caption += f"\n<b>{ZEDM}الايـدي        ⤎ </b> <code>{user_id}</code>\n"
         caption += f"<b>{ZEDM}الرتبــه        ⤎ {rotbat} </b>\n" 
         if zilzal == True or user_id in zelzal: 
@@ -214,7 +214,7 @@ async def fetch_info(replied_user, event):
         zzz_caption = gvarstatus("ZID_TEMPLATE")
         caption = zzz_caption.format(
             znam=full_name,
-            zusr=username_display,
+            zusr=username,
             zidd=user_id,
             zrtb=rotbat,
             zpre=zpre,
@@ -226,33 +226,9 @@ async def fetch_info(replied_user, event):
             zsnc=zzzsinc,
             zbio=user_bio,
         )
-
+  return photo, caption
      
-    buttons = []
-    if username:
-        buttons.append([Button.url(f"📬 فتح المحادثة ويا {username_display}", f"https://t.me/{username}")])
-
     
-    status = replied_user.status
-    if isinstance(status, UserStatusOnline):
-        online_status = "🟢 أونلاين الآن"
-    elif isinstance(status, UserStatusOffline):
-        online_status = "📴 آخر ظهور: غير متوفر"
-        if hasattr(status, 'was_online') and status.was_online:
-            online_status = f"📴 آخر ظهور: {status.was_online.strftime('%Y-%m-%d %H:%M')}"
-    elif isinstance(status, UserStatusRecently):
-        online_status = "🕓 شوهد مؤخراً"
-    elif isinstance(status, UserStatusLastWeek):
-        online_status = "📆 شوهد هذا الأسبوع"
-    elif isinstance(status, UserStatusLastMonth):
-        online_status = "📆 شوهد هذا الشهر"
-    else:
-        online_status = "❔ غير معروف"
-
-    buttons.append([Button.inline(online_status, b"noop")])
-
-    return photo, caption, buttons
-
 
 @zedub.zed_cmd(
     pattern="ايدي(?: |$)(.*)",
@@ -271,7 +247,7 @@ async def who(event):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     replied_user = await get_user_from_event(event)
     try:
-        photo, caption, buttons = await fetch_info(replied_user, event)
+        photo, caption = await fetch_info(replied_user, event)
     except (AttributeError, TypeError):
         return await edit_or_reply(zed, "**- لـم استطـع العثــور ع الشخــص ؟!**")
     message_id_to_reply = event.message.reply_to_msg_id
@@ -283,7 +259,6 @@ async def who(event):
                 event.chat_id,
                 photo,
                 caption=caption,
-                buttons=buttons,
                 link_preview=False,
                 force_document=False,
                 reply_to=message_id_to_reply,
@@ -300,7 +275,6 @@ async def who(event):
                 event.chat_id,
                 photo,
                 caption=caption,
-                buttons=buttons,
                 link_preview=False,
                 force_document=False,
                 reply_to=message_id_to_reply,
