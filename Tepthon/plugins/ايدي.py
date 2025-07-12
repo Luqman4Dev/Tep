@@ -26,6 +26,7 @@ from ..core.managers import edit_or_reply, edit_delete
 from ..sql_helper.globals import addgvar, delgvar, gvarstatus
 from ..sql_helper.echo_sql import addecho, get_all_echos, get_echos, is_echo, remove_all_echos, remove_echo, remove_echos
 from . import BOTLOG, BOTLOG_CHATID, spamwatch
+from .. import bot
 
 plugin_category = "العروض"
 LOGS = logging.getLogger(__name__)
@@ -233,7 +234,8 @@ async def fetch_info(replied_user, event):
     return photo, caption, buttons
 
 
-@zedub.zed_client.on(events.CallbackQuery(pattern=r"like_(\d+)"))
+
+@bot.on(events.CallbackQuery(pattern=r"like_(\d+)"))
 async def like_callback(event):
     user_id = int(event.pattern_match.group(1))
     new_likes = add_like(user_id)
