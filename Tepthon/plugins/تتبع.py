@@ -6,7 +6,7 @@ from Tepthon import zedub
 from . import zedub  
 
 TRACK_FILE = "tracked_users.json"  
-LOG_CHAT_ID = -100987654321        
+LOG_CHAT_ID = -1002538233107        
 
 
 if os.path.exists(TRACK_FILE):
