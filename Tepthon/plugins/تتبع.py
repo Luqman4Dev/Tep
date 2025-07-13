@@ -1,5 +1,12 @@
 import json
 import os
+from telethon.tl import functions
+
+from .. import zedub
+from ..Config import Config
+from ..core.managers import edit_delete, edit_or_reply
+from ..utils.tools import create_supergroup
+
 from telethon import events
 from telethon.utils import get_display_name
 from Tepthon import zedub
