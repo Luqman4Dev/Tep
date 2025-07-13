@@ -2,6 +2,7 @@ import json
 import os
 from telethon import events
 from telethon.utils import get_display_name
+from Tepthon import zedub
 from . import zedub  
 
 TRACK_FILE = "tracked_users.json"  
