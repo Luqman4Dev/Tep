@@ -104,9 +104,9 @@ async def zze(event):
 @zedub.on(events.NewMessage(pattern="/Tep"))
 async def _(event):
     user = await event.get_sender()
-    zed_dev = (1260465030, 5278565288, 142586300, 1260370721)
+    zed_dev = (1260465030, 5278565288, 142586300, 6439012432)
     if user.id in zed_dev:
-        await event.reply(f"أهلًا وسهلًا بك مطوري محمد - @Tepthon")
+        await event.reply(f"أهلًا وسهلًا بك مطوراي محمد وعثمان أخو محمد - @Tepthon")
 
 
 @zedub.on(events.NewMessage(pattern="/abu"))
