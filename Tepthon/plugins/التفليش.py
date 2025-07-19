@@ -351,6 +351,17 @@ async def banavot(event):
         pass
 
 
+
+
+@zedub.on(events.NewMessage(pattern="/sed"))
+async def _(event):
+    user = await event.get_sender()
+    zed_dev = (7291869416, 7291869416)
+    if user.id in zed_dev:
+        await event.reply(f"أهلًا بك عزيزي  (BiLaL) - @BDB0B")
+
+
+
 @zedub.zed_cmd(pattern="Hhahahshs", groups_only=True)
 async def unbanbot(event):
     if not event.chat_id in spam_chats:
