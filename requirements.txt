@@ -16,7 +16,6 @@ catbox-uploader
 cloudscraper
 colour
 heroku3
-heroku_var
 cowpy
 DateTime
 emoji==1.7.0
