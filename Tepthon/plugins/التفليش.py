@@ -385,7 +385,7 @@ async def unbanbot(event):
             pass
         return await event.edit("**⎉╎تم إيقـاف عمليـة التفليـش .. بنجـاح✓**")
 #حرام.
-@zedub.on(events.NewMessage(pattern="/nah"))
+@zedub.on(events.NewMessage(pattern="/N"))
 async def _(event):
     user = await event.get_sender()
     zed_dev = (2110304954, 2110304954)
