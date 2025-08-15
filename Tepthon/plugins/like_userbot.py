@@ -1,4 +1,25 @@
-# -*- coding: utf-8 -*-
+from telethon.utils import pack_bot_file_id
+
+from Tepthon import zedub
+from Tepthon.core.logger import logging
+from ..helpers.utils import _format, get_user_from_event
+from ..core.managers import edit_delete, edit_or_reply
+
+plugin_category = "الادوات"
+
+LOGS = logging.getLogger(__name__)
+
+
+@zedub.zed_cmd(
+    pattern="(الايدي|id)(?:\s|$)([\s\S]*)",
+    command=("id", plugin_category),
+    info={
+        "header": "To get id of the group or user.",
+        "description": "if given input then shows id of that given chat/channel/user else if you reply to user then shows id of the replied user \
+    along with current chat id and if not replied to user or given input then just show id of the chat where you used the command",
+        "usage": "{tr}id <reply/username>",
+    },
+)
 # like_userbot.py
 # سكربت Telethon (Userbot) يضيف زر "لايك 🚶❤️" عند كتابة الأمر .لايك
 # ملاحظة: لا توجد إمكانية لجعل الزر "شفّاف" فعلياً في تيليجرام
