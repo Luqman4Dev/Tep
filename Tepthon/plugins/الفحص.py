@@ -80,6 +80,12 @@ async def amireallyalive(event):
         )
 
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/dev-source1/Tep/main/IMG_20250818_192518_860.jpg" alt="شعار المشروع" width="250"/>
+</p>
+
+
+
 zed_temp = """{ALIVE_TEXT}
 
 **{Z_EMOJI} قاعـدة البيانـات : ** سريعـة للغايـة 🚀 
@@ -121,3 +127,4 @@ async def amireallyialive(event):
 async def on_plug_in_callback_query_handler(event):
     statstext = await zedalive(StartTime)
     await event.answer(statstext, cache_time=0, alert=True)
+
