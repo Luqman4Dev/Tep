@@ -34,7 +34,7 @@ async def amireallyalive(event):
     boot_time_timestamp = psutil.boot_time()
     bt = datetime.fromtimestamp(boot_time_timestamp)
     start = datetime.now()
-    zedevent = await edit_or_reply(event, "**يتِم فحـص تنصيبـك لـ  𝖳𝖾𝗉𝗍h᥆ᥒ 𔘓  . .**")
+    zedevent = await edit_or_reply(event, "**يتِم فحـص تنصيبـك لـ 𝖳𝖾𝗉𝗍h᥆ᥒ 𔘓  . .**")
     end = datetime.now()
     ms = (end - start).microseconds / 1000
     _, check_sgnirts = check_data_base_heal_th()
@@ -46,80 +46,26 @@ async def amireallyalive(event):
         zedda = f"{bt.year}/{bt.month}/{bt.day}"
     Z_EMOJI = gvarstatus("ALIVE_EMOJI") or "✾╿"
     ALIVE_TEXT = gvarstatus("ALIVE_TEXT") or "**- بوت تيبثـون 𝖳𝖤𝖯𝖳𝖧𝖮𝖭 يعمـل بنجـاح 🌿 ..**"
-    ZED_IMG = gvarstatus("ALIVE_PIC")
-    zed_caption = gvarstatus("ALIVE_TEMPLATE") or zed_temp
-    caption = zed_caption.format(
-        ALIVE_TEXT=ALIVE_TEXT,
-        Z_EMOJI=Z_EMOJI,
-        mention=mention,
-        uptime=uptime,
-        zedda=zedda,
-        telever=version.__version__,
-        zdver=tepversion,
-        pyver=python_version(),
-        dbhealth=check_sgnirts,
-        ping=ms,
+
+    # تحضير النص ويا المعلومات
+    caption_text = f"""
+{ALIVE_TEXT}
+
+{Z_EMOJI} مدة التشغيل : `{uptime}`
+{Z_EMOJI} وقت التشغيل : `{zedda}`
+{Z_EMOJI} تأخير الاستجابة : `{ms}ms`
+{Z_EMOJI} نسخة بايثون : `{python_version()}`
+{Z_EMOJI} نسخة تيليثون : `{version.__version__}`
+{Z_EMOJI} نسخة تيبثون : `{tepversion}`
+"""
+
+    # ارسال صورة ويا التفاصيل
+    photo_url = "https://raw.githubusercontent.com/dev-source1/Tep/main/IMG_20250818_192518_860.jpg"
+    await event.client.send_file(
+        event.chat_id,
+        photo_url,
+        caption=caption_text,
+        reply_to=reply_to_id
     )
-    if ZED_IMG:
-        ZED = [x for x in ZED_IMG.split()]
-        PIC = random.choice(ZED)
-        try:
-            await event.client.send_file(
-                event.chat_id, PIC, caption=caption, reply_to=reply_to_id
-            )
-            await zedevent.delete()
-        except (WebpageMediaEmptyError, MediaEmptyError, WebpageCurlFailedError):
-            return await edit_or_reply(
-                zedevent,
-                f"**⌔∮ عـذراً عليـك الـرد ع صـوره او ميـديـا  ⪼  `.اضف صورة الفحص` <بالرد ع الصـوره او الميـديـا> ",
-            )
-    else:
-        await edit_or_reply(
-            zedevent,
-            caption,
-        )
 
-
-zed_temp = """{ALIVE_TEXT}
-
-**{Z_EMOJI} قاعـدة البيانـات : ** سريعـة للغايـة 🚀 
-**{Z_EMOJI} إصــدار المكتبــة :** `{telever}`
-**{Z_EMOJI} إصــدار الـسـورس : ** `{zdver}`
-**{Z_EMOJI} إصــدار بايـثون : ** `{pyver}`
-**{Z_EMOJI} وَقـت التشغِيـل : ** `{uptime}`
-**{Z_EMOJI} منــصـة التنصِيب :** `𝐡𝐞𝐫𝐨𝐤𝐮`
-**{Z_EMOJI} تاريــخ التنصيـب : ** `{zedda}`
-**{Z_EMOJI} المالـك : ** {mention}
-**{Z_EMOJI} قنـاتنا :** [اضغـط هنـا](https://t.me/Tepthon)"""
-
-
-@zedub.zed_cmd(
-    pattern="الفحص$",
-    command=("الفحص", plugin_category),
-    info={
-        "header": "- لـ التحـقق من ان البـوت يعمـل بنجـاح .. بخـاصيـة الانـلايـن ✓",
-        "الاسـتخـدام": [
-            "{tr}الفحص",
-        ],
-    },
-)
-async def amireallyialive(event):
-    "A kind of showing bot details by your inline bot"
-    reply_to_id = await reply_id(event)
-    Z_EMOJI = gvarstatus("ALIVE_EMOJI") or "✾╿"
-    zed_caption = "**- بوت تيبثـون 𝖳𝖤𝖯𝖳𝖧𝖮𝖭 يعمـل بنجـاح 🌿 .. **\n"
-    zed_caption += f"**{Z_EMOJI} إصـــدار تليثـون : ** `{version.__version__}\n`"
-    zed_caption += f"**{Z_EMOJI} إصــدار تيبثــون : ** `{tepversion}`\n"
-    zed_caption += f"**{Z_EMOJI} إصــدار بايـثـون : ** `{python_version()}\n`"
-    zed_caption += f"**{Z_EMOJI} المالـك : ** {mention}\n"
-    results = await event.client.inline_query(Config.TG_BOT_USERNAME, zed_caption)
-    await results[0].click(event.chat_id, reply_to=reply_to_id, hide_via=True)
-    await event.delete()
-
-
-@zedub.tgbot.on(CallbackQuery(data=re.compile(b"stats")))
-async def on_plug_in_callback_query_handler(event):
-    statstext = await zedalive(StartTime)
-    await event.answer(statstext, cache_time=0, alert=True)
-
-
+    await zedevent.delete()
