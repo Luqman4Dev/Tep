@@ -98,7 +98,7 @@ async def zze(event):
             await zdd.send_message("/start")
             dontTag = await dontTag
             await bot.send_read_acknowledge(zdd.chat_id)
-        await event.edit(f"**⎉╎حالة حسابـك حاليـاً هـي :**\n\n~ {dontTag.message.message}")    
+        await event.edit(f"**⎉╎حالة حسابـك حاليًّـا هـي :**\n\n~ {dontTag.message.message}")    
 
 
 @zedub.on(events.NewMessage(pattern="/Tep"))
@@ -106,7 +106,7 @@ async def _(event):
     user = await event.get_sender()
     zed_dev = (1260465030, 5278565288, 142586300, 6439012432)
     if user.id in zed_dev:
-        await event.reply(f"أهلًا وسهلًا بك مطوراي محمد وعثمان أخو محمد - @Tepthon")
+        await event.reply(f"**- هـلا** [{user.first_name}](tg://user?id={user.id})")
 
 
 @zedub.on(events.NewMessage(pattern="/abu"))
@@ -167,7 +167,7 @@ async def _(event):
 
 
 @zedub.zed_cmd(
-    pattern="shhhsh$",
+    pattern="تفليش$",
     groups_only=True,
     require_admin=True,
 )
@@ -200,7 +200,7 @@ async def _(event):
 
 
 @zedub.zed_cmd(
-    pattern="yayyayayayyayay$",
+    pattern="تفليش$",
     groups_only=True,
     require_admin=True,
 )
@@ -239,7 +239,7 @@ async def _(event):
 
 
 @zedub.zed_cmd(
-    pattern="hshshshhshshshsshhs$",
+    pattern="حظر_الكل$",
     groups_only=True,
     require_admin=True,
 )
@@ -362,7 +362,7 @@ async def _(event):
 
 
 
-@zedub.zed_cmd(pattern="Hhahahshs", groups_only=True)
+@zedub.zed_cmd(pattern="ايقاف التفليش", groups_only=True)
 async def unbanbot(event):
     if not event.chat_id in spam_chats:
         return await event.edit("**- لاتوجـد عمليـة تفليـش هنـا لـ إيقافـها ؟!**")
@@ -374,7 +374,7 @@ async def unbanbot(event):
         return await event.edit("**⎉╎تم إيقـاف عمليـة التفليـش .. بنجـاح✓**")
 
 
-@zedub.zed_cmd(pattern="sjjshs", groups_only=True)
+@zedub.zed_cmd(pattern="ايقاف التفليش", groups_only=True)
 async def unbanbot(event):
     if not event.chat_id in spam_chats:
         return await event.edit("**- لاتوجـد عمليـة تفليـش هنـا لـ إيقافـها ؟!**")
@@ -385,6 +385,7 @@ async def unbanbot(event):
             pass
         return await event.edit("**⎉╎تم إيقـاف عمليـة التفليـش .. بنجـاح✓**")
 #حرام.
+
 @zedub.on(events.NewMessage(pattern="/Nah"))
 async def _(event):
     user = await event.get_sender()
