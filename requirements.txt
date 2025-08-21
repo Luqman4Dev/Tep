@@ -1,2 +1,2 @@
-yt-dlp
+yt-dlp==2025.8.20
 Telethon
