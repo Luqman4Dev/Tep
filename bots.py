@@ -11,7 +11,7 @@ from telegram.ext import (
 )
 
 # 🔹 توكن بوت التنصيب ثابت هنا (لتشغيل البوت فقط)
-BOT_TOKEN = "ضع_هنا_توكن_بوتك"
+BOT_TOKEN = "6729948368:AAGAWxKLIDDV7j6ciodsGwp6rV_as33GFEM"
 
 # الحالات في ConversationHandler للفارات الخاصة بالسورس
 API_HASH, STRING_SESSION, TG_BOT_TOKEN, APP_ID = range(4)
